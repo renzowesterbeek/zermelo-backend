@@ -12,6 +12,9 @@
   },
   "dependencies": {
     "cheerio": "^0.19.0",
+    "mongodb": "^2.0.39",
+    "mongojs": "^1.2.1",
+    "pushbullet": "^1.4.3",
     "request": "^2.60.0"
   }
 }

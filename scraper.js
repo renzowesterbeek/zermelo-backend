@@ -14,7 +14,7 @@ function getBody(url, callback){
     }
     res.on('error', function(e) {
       console.log("Got error: " + e.message);
-      return "";
+      return 0;
     });
   });
 }
