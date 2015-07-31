@@ -1,12 +1,28 @@
-var request = require("request");
 var cheerio = require("cheerio");
+var http = require("http");
 
-module.exports = function(leerlingnum){
-  var url = "http://localhost/InfoWeb.html?ref=2";
+function getBody(url, callback){
+  http.get(url, function(res) {
+    if(res.statusCode == 200){
+      var data = "";
+      res.on("data", function(chunk) {
+        data += chunk;
+      });
+      res.on("end", function(){
+        callback(data);
+      });
+    }
+    res.on('error', function(e) {
+      console.log("Got error: " + e.message);
+      return "";
+    });
+  });
+}
 
-  request({
-    uri: url + "&id=" + leerlingnum,
-  }, function(error, response, body) {
+module.exports = function(leerlingnum, callback){
+  var url = "http://localhost/InfoWeb.html?ref=2&id=" + leerlingnum;
+
+  getBody(url, function(body){
     var $ = cheerio.load(body);
 
     var vervallen = 0;
@@ -18,6 +34,8 @@ module.exports = function(leerlingnum){
     $(".wijziging").each(function(){
       gewijzigd += 1;
     });
-    console.log(vervallen, gewijzigd);
+
+    callback(vervallen, gewijzigd);
   });
-}
+
+};
