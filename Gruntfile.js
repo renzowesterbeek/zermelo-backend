@@ -30,13 +30,13 @@ module.exports = function(grunt){
     },
     jshint: {
       grunt: {
-        src: ['Gruntfile.js', 'pacakge.json']
+        src: ['Gruntfile.js', 'package.json']
       },
       source: {
-        src: ['js/**/*.js']
+        src: ['*.js', '!Gruntfile.js', '!package.json']
       },
       build: {
-        src: ['build/js/**/*.js']
+        src: ['build/**/*.js']
       }
     },
 	  copy: {
@@ -52,9 +52,13 @@ module.exports = function(grunt){
 		},
 		watch: {
 	    js: {
-	      files: ['js/**/*.js'],
+	      files: ['*.js', '!Gruntfile.js', '!package.json'],
 	      tasks: ['test'],
 	    },
+			gruntfiles: {
+				files: ['Gruntfile.js', 'package.json'],
+				tasks: ['jshint:grunt']
+			}
 	  } // end of task config
 
 	}); // end of grunt.initConfig
