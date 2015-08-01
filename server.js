@@ -43,12 +43,21 @@ setInterval(function(){
         if(doc.vervallen !== vervallen && doc.gewijzigd !== gewijzigd){
           // Vervallen & Gewijzigd
           console.log("Vervallen & Gewijzigd");
+          db.users.update({"leerlingnum" : doc.leerlingnum}, {$set: {"vervallen" : vervallen, "gewijzigd" : gewijzigd}}, {multi: true}, function(){
+            console.log("Updated!");
+          });
         } else if (doc.vervallen !== vervallen){
           // Vervallen
           console.log("Vervallen");
+          db.users.update({"leerlingnum" : doc.leerlingnum}, {$set: {"vervallen" : vervallen}}, {multi: true}, function(){
+            console.log("Updated!");
+          });
         } else if (doc.gewijzigd !== gewijzigd){
           // Gewijzigd
           console.log("Gewijzigd");
+          db.users.update({"leerlingnum" : doc.leerlingnum}, {$set: {"gewijzigd" : gewijzigd}}, {multi: true}, function(){
+            console.log("Updated!");
+          });
         }
         // pusher.link(doc.email, 'Welkom, je ontvangt vanaf nu notificaties!', 'http://renzo.westerbeek.us/', function(error, response) {
         //   console.log("Sent welcome notification");
