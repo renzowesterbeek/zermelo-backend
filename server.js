@@ -6,34 +6,10 @@ var pusher = new PushBullet('nCWCoD4saWNZ8YPqlAxCkPnqcFYvgqL5');
 var url = 'mongodb://localhost:27017/iweb';
 var db = mongojs(url, ["users"]);
 
-setInterval(function(){
-  db.users.find({"first_time" : 1}, function(err, docs){
-    docs.forEach(function(doc){
-      var leerlingnum = doc.leerlingnum;
-      pusher.link(doc.email, 'Welkom, je ontvangt vanaf nu notificaties!', 'http://renzo.westerbeek.us/', function(error, response) {
-        console.log("Sent welcome notification");
-      });
-      db.users.update({"leerlingnum" : leerlingnum}, {"first_time" : 0}, function(){
-        console.log("Updated!");
-      });
-    });
-  });
-
-  db.users.find({"first_time" : 0}, function(err, docs){
-    pusher.link(doc.email, 'Welkom, je ontvangt vanaf nu notificaties!', 'http://renzo.westerbeek.us/', function(error, response) {
-      console.log("Sent welcome notification");
-    });
-    // scraper(leerlingnum, function(vervallen, gewijzigd){
-    //   console.log(leerlingnum, vervallen, gewijzigd);
-    // });
-  });
-
-}, 2 * 1000);
-
 // var bulk = db.users.initializeOrderedBulkOp();
-// bulk.find({}).remove();
+// bulk.find().remove();
 // bulk.execute(function (err, res) {
-//   console.log('Done!');
+//   console.log('Cleared db');
 // });
 
 // db.users.insert({
@@ -47,3 +23,38 @@ setInterval(function(){
 // }, function(){
 //   console.log("Done Inserting");
 // });
+
+setInterval(function(){
+  db.users.find({"first_time" : 1}, function(err, docs){
+    docs.forEach(function(doc){
+      var leerlingnum = doc.leerlingnum;
+      pusher.link(doc.email, 'Welkom, je ontvangt vanaf nu notificaties!', 'http://renzo.westerbeek.us/', function(error, response) {
+        console.log("Sent welcome notification to", leerlingnum);
+      });
+      db.users.update({"leerlingnum" : leerlingnum}, {$set: {"first_time" : 0}}, {multi: true}, function(){
+        console.log("Updated!");
+      });
+    });
+  });
+
+  db.users.find({"first_time" : 0}, function(err, docs){
+    docs.forEach(function(doc){
+      scraper(doc.leerlingnum, function(vervallen, gewijzigd){
+        if(doc.vervallen !== vervallen && doc.gewijzigd !== gewijzigd){
+          // Vervallen & Gewijzigd
+          console.log("Vervallen & Gewijzigd");
+        } else if (doc.vervallen !== vervallen){
+          // Vervallen
+          console.log("Vervallen");
+        } else if (doc.gewijzigd !== gewijzigd){
+          // Gewijzigd
+          console.log("Gewijzigd");
+        }
+        // pusher.link(doc.email, 'Welkom, je ontvangt vanaf nu notificaties!', 'http://renzo.westerbeek.us/', function(error, response) {
+        //   console.log("Sent welcome notification");
+        // });
+      });
+    });
+  });
+
+}, 2 * 1000);
