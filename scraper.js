@@ -1,3 +1,7 @@
+// scraper.js
+// Data-scraper module for the InfoWeb website
+// Created on 31-7-2015
+
 var cheerio = require("cheerio");
 var http = require("http");
 

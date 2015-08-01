@@ -2,13 +2,14 @@
 // Connects all components of the server. This file is run by node and calls other modules
 // Created on 31-7-2015
 
-var scraper = require('./scraper.js');
+// Require statements
 var mongojs = require('mongojs');
 var PushBullet = require('pushbullet');
+var scraper = require('./scraper.js');
 var pusher = new PushBullet('nCWCoD4saWNZ8YPqlAxCkPnqcFYvgqL5');
 
-var url = 'mongodb://localhost:27017/iweb';
-var db = mongojs(url, ["users"]);
+// Init database
+var db = mongojs('mongodb://localhost:27017/iweb', ["users"]);
 
 // Main interval loop
 setInterval(function(){
@@ -32,19 +33,19 @@ setInterval(function(){
           // Vervallen & Gewijzigd
           console.log("Vervallen & Gewijzigd voor", doc.leerlingnum);
           pusher.link(doc.email, 'Je hebt uitval en een nieuwe wijziging', roosterurl, function(error, response) {
-            console.log("Sent uitval en verval-notification to: ", doc.leerlingnum);
+            console.log("Sent uitval en verval-notification to:", doc.leerlingnum);
           });
           db.users.update({"leerlingnum" : doc.leerlingnum}, {$set: {"vervallen" : vervallen, "gewijzigd" : gewijzigd}}, {multi: true}, function(){});
         } else if (doc.vervallen !== vervallen){
           // Vervallen
           pusher.link(doc.email, 'Je hebt uitval!', roosterurl, function(error, response) {
-            console.log("Sent uitval-notification to: ", doc.leerlingnum);
+            console.log("Sent uitval-notification to:", doc.leerlingnum);
           });
           db.users.update({"leerlingnum" : doc.leerlingnum}, {$set: {"vervallen" : vervallen}}, {multi: true}, function(){});
         } else if (doc.gewijzigd !== gewijzigd){
           // Gewijzigd
           pusher.link(doc.email, 'Je hebt een niewe roosterwijziging!', roosterurl, function(error, response) {
-            console.log("Sent wijziging-notification to: ", doc.leerlingnum);
+            console.log("Sent wijziging-notification to:", doc.leerlingnum);
           });
           db.users.update({"leerlingnum" : doc.leerlingnum}, {$set: {"gewijzigd" : gewijzigd}}, {multi: true}, function(){});
         }

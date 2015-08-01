@@ -3,8 +3,7 @@
 // Created on 1-8-2015
 var mongojs = require('mongojs');
 
-var url = 'mongodb://localhost:27017/iweb';
-var db = mongojs(url, ["users"]);
+var db = mongojs('mongodb://localhost:27017/iweb', ["users"]);
 
 function clearDB(){
   var bulk = db.users.initializeOrderedBulkOp();
