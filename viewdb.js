@@ -1,5 +1,6 @@
-// viewdb.js -- Logs all database entries in selevted database
-// Created on July 31th 2015
+// viewdb.js
+// Logs all database entries in selevted database
+// Created on 31-7-2015
 
 var mongojs = require('mongojs');
 
