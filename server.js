@@ -10,24 +10,7 @@ var pusher = new PushBullet('nCWCoD4saWNZ8YPqlAxCkPnqcFYvgqL5');
 var url = 'mongodb://localhost:27017/iweb';
 var db = mongojs(url, ["users"]);
 
-// var bulk = db.users.initializeOrderedBulkOp();
-// bulk.find().remove();
-// bulk.execute(function (err, res) {
-//   console.log('Cleared db');
-// });
-
-// db.users.insert({
-//   "name" : "Renzo Westerbeek",
-//   "password" : "",
-//   "leerlingnum" : "301250",
-//   "email" : "renzowesterbeek@gmail.com",
-//   "vervallen" : 0,
-//   "gewijzigd" : 0,
-//   "first_time" : 1
-// }, function(){
-//   console.log("Done Inserting");
-// });
-
+// Main interval loop
 setInterval(function(){
   // Check for first-time users
   db.users.find({"first_time" : 1}, function(err, docs){
