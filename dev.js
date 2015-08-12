@@ -33,3 +33,5 @@ function logEntries(){
     db.close();
   });
 }
+
+// Add functions to run below

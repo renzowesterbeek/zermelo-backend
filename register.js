@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var mongojs = require('mongojs');
 var db = mongojs('mongodb://localhost:27017/iweb', ["users"]);
 
+// Export register.js module
 module.exports = function main(){
   app.use(bodyParser.urlencoded({
     extended: true

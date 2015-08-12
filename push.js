@@ -1,6 +1,8 @@
 // server.js
-// Connects all components of the server. This file is run by node and calls other modules
+// Handles sending of push-notifications. Listens for new schedule-changes
 // Created on 31-7-2015
+
+// Start mongodb server with this command: mongod --dbpath=./userdata
 
 // Require statements
 var mongojs = require('mongojs');
@@ -11,10 +13,10 @@ var pusher = new PushBullet('nCWCoD4saWNZ8YPqlAxCkPnqcFYvgqL5');
 // Init database
 var db = mongojs('mongodb://localhost:27017/iweb', ["users"]);
 
-// Main interval loop
+// Export push.js module
 module.exports = function main(){
+  console.log("Push-server listening for updates...");
   setInterval(function(){
-    console.log("Push-server listening for updates...");
     // Check for first-time users
     db.users.find({"first_time" : 1}, function(err, docs){
       docs.forEach(function(doc){
