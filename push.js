@@ -1,6 +1,7 @@
 // server.js
 // Handles sending of push-notifications. Listens for new schedule-changes
 // Created on 31-7-2015
+// Status 
 
 // Start mongodb server with this command: mongod --dbpath=./userdata
 

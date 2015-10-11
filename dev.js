@@ -35,3 +35,4 @@ function logEntries(){
 }
 
 // Add functions to run below
+logEntries();
