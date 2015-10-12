@@ -25,15 +25,13 @@ module.exports = function(appcode, callback){
       return console.error('POST FAILED:', err);
     }
     if(body.indexOf('HTTP Status 404') >= 0){
-      console.log('Streek incorrect');
+      callback('Streek incorrect', null);
     } else if(body.indexOf('HTTP Status 400') >= 0){
-      console.log('Code already used');
+      callback('Code is al gebruikt', null);
     } else {
-      // Request succesful
-      console.log('Succesful request');
       var jsonBody = JSON.parse(body);
       // console.log('Expires in: ' + jsonBody.expires_in);
-      callback(jsonBody.access_token);
+      callback(null, jsonBody.access_token);
     }
   });
 

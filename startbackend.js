@@ -6,5 +6,5 @@
 var pushServ = require('./push.js');
 var registerServ = require('./register.js');
 
-pushServ();
+//pushServ();
 registerServ();

@@ -21,8 +21,6 @@ var token = '9fhdlouud4loe7ou4rjccs1il';
 var user = '301259';
 var url = 'https://scmoost.zportal.nl/api/v2/appointments?user='+user+'&start='+startTime+'&end='+endTime+'&access_token=' + token;
 
-
-
 request(url, function(err, response, body){
   if (!err && response.statusCode == 200){
     console.log('Succesful request');

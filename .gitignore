@@ -1,6 +1,5 @@
 node_modules/
 .DS_Store
-users.json
-userdata/
+data/
 Gruntfile.js
 zermelo/

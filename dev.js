@@ -3,36 +3,25 @@
 // Created on 1-8-2015
 var mongojs = require('mongojs');
 
-var db = mongojs('mongodb://localhost:27017/iweb', ["users"]);
+var db = mongojs('userdata', ['users']);
 
 function clearDB(){
-  var bulk = db.users.initializeOrderedBulkOp();
-  bulk.find().remove();
-  bulk.execute(function (err, res) {
-    console.log('Cleared db');
-  });
-}
-
-function insert(){
-  db.users.insert({
-    "name" : "Renzo Westerbeek",
-    "password" : "",
-    "leerlingnum" : "301250",
-    "email" : "renzowesterbeek@gmail.com",
-    "vervallen" : 0,
-    "gewijzigd" : 0,
-    "first_time" : 1
-  }, function(){
-    console.log("Done Inserting");
-  });
-}
-
-function logEntries(){
-  db.users.find(function(err, docs){
-    console.log(docs);
+  db.users.remove(function(){
     db.close();
   });
 }
 
-// Add functions to run below
-logEntries();
+function insertDoc(email, appcode){
+  db.users.insert({'email' : email, 'appcode' : appcode}, function(){
+    db.close();
+  });
+}
+
+db.users.find(function(err, doc){
+  if(!err){
+    console.log(doc);
+  } else {
+    console.log(err);
+  }
+  db.close();
+});
