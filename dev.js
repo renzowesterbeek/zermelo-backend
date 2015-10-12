@@ -1,6 +1,7 @@
 // dev.js
 // Some general functions used for development purposes and testing
 // Created on 1-8-2015
+// Status 0
 var mongojs = require('mongojs');
 
 var db = mongojs('userdata', ['users']);

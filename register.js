@@ -2,7 +2,6 @@
 // Handles submitted registration forms
 // Created on 2-8-15
 // Status 1
-
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
@@ -27,8 +26,13 @@ function emailExists(email, callback){
       console.log(err);
       db.close();
     } else {
-      (doc.length == 0) ? callback(0) : callback(1);
-      db.close();
+      if(doc.length == 0){
+        callback(0);
+        db.close();
+      } else {
+        callback(1);
+        db.close();
+      }
     }
   });
 }
@@ -46,7 +50,6 @@ module.exports = function(){
 
       emailExists(email, function(result){
         if(result == 0){
-          res.redirect("http://localhost/iweb-push-server/register.php?m=succes");
           // Kick in register process
           exchangeAppcode(appcode, function(err, token){
             if(err){
@@ -54,6 +57,7 @@ module.exports = function(){
               res.redirect("http://localhost/iweb-push-server/register.php?m=" + err);
             } else {
               console.log("TOKEN:", token);
+              res.redirect("http://localhost/iweb-push-server/register.php?m=Succes: " + token);
 
               // insertDoc(email, token, function(){
               //   console.log('Inserted');

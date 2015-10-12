@@ -16,10 +16,8 @@ _InfoWeb is the schedule system my school uses. I'm creating a service that send
 - [Pushbullet]("https://www.pushbullet.com") - Push notifications
 
 ## Todo
-- [ ] Check for existance of leerlingnummer or email in database
-- [x] Create server-running script to run all Node servers in one click
-- [x] Send notification on 'wijziging' and 'vervallen'
-- [x] Add 'leerlingnummer' to log-system
+- [ ] implement client-side registration data verification
+- [ ] implement registration functionality
 
 ## Status overview
 - 0 Unstable
