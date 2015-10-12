@@ -1,7 +1,7 @@
 // startbackend.js
 // Starts all backend processes for the server to work correctly
 // Created on 6-8-15
-// Status 2
+// Status 1
 
 var pushServ = require('./push.js');
 var registerServ = require('./register.js');

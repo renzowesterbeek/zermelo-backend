@@ -1,6 +1,7 @@
 // register.js
 // Handles submitted registration forms
 // Created on 2-8-15
+// Status 1
 
 var express = require('express');
 var app = express();
@@ -9,6 +10,7 @@ var mongojs = require('mongojs');
 var db = mongojs('userdata', ['users']);
 var exchangeAppcode = require('./exchangeAppcode.js');
 
+// Inserts account in db
 function insertDoc(email, token, callback){
   db.users.insert({
     'email' : email,
@@ -18,13 +20,14 @@ function insertDoc(email, token, callback){
   }, callback);
 }
 
-function emailExists(email){
+// Checks whether email adress exists in db or not
+function emailExists(email, callback){
   db.users.find({'email':email}, function(err, doc){
-    if(!err){
-      console.log(doc);
+    if(err){
+      console.log(err);
       db.close();
     } else {
-      console.log('ERROR:', err);
+      (doc.length == 0) ? callback(0) : callback(1);
       db.close();
     }
   });
@@ -40,28 +43,29 @@ module.exports = function(){
       var appcode = req.body.appcode;
       var email = req.body.email;
       console.log("REGISTRATION DATA:", email, appcode);
-      if(emailExists(email) == 1){
-        res.redirect("http://localhost/iweb-push-server/register.php?m=Email already in use");
-      } else {
-        res.redirect("http://localhost/iweb-push-server/register.php?m=succes");
-      }
 
-      res.end();
+      emailExists(email, function(result){
+        if(result == 0){
+          res.redirect("http://localhost/iweb-push-server/register.php?m=succes");
+          // Kick in register process
+          exchangeAppcode(appcode, function(err, token){
+            if(err){
+              console.log('ERROR:', err);
+              res.redirect("http://localhost/iweb-push-server/register.php?m=" + err);
+            } else {
+              console.log("TOKEN:", token);
 
-      // exchangeAppcode(appcode, function(err, token){
-      //   if(err){
-      //     console.log('ERROR:', err);
-      //     res.redirect("http://localhost/iweb-push-server/register.php?m=" + err);
-      //   } else {
-      //     console.log("TOKEN:", token);
-      //
-      //     // insertDoc(email, token, function(){
-      //     //   console.log('Inserted');
-      //     //   db.close();
-      //     //   res.redirect("http://localhost/iweb-push-server/register.php?m=Succesful%20registration");
-      //     // })
-      //   }
-      // });
+              // insertDoc(email, token, function(){
+              //   console.log('Inserted');
+              //   db.close();
+              //   res.redirect("http://localhost/iweb-push-server/register.php?m=Succesful%20registration");
+              // })
+            }
+          });
+        } else {
+          res.redirect("http://localhost/iweb-push-server/register.php?m="+email+" already in use&appcode=" + appcode);
+        }
+      });
   });
 
   var server = app.listen(3000, function () {

@@ -1,5 +1,5 @@
 // dev.js
-// Some general functions used for development purposes
+// Some general functions used for development purposes and testing
 // Created on 1-8-2015
 var mongojs = require('mongojs');
 
