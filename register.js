@@ -49,20 +49,17 @@ module.exports = function(){
 
       emailExists(email, function(result){
         if(result == 0){
-          // Kick in register process
+          // Start registration
           exchangeAppcode(appcode, function(err, token){
             if(err){
               console.log('ERROR:', err);
               res.redirect("http://localhost/iweb-push-server/register.php?m=" + err);
             } else {
-              console.log("TOKEN:", token);
-              res.redirect("http://localhost/iweb-push-server/register.php?m=Succes: " + token);
-
-              // insertDoc(email, token, function(){
-              //   console.log('Inserted');
-              //   db.close();
-              //   res.redirect("http://localhost/iweb-push-server/register.php?m=Succesful%20registration");
-              // })
+              insertDoc(email, token, function(){
+                console.log('Inserted');
+                db.close();
+                res.redirect("http://localhost/iweb-push-server/register.php?m=Succesful%20registration");
+              })
             }
           });
         } else {
