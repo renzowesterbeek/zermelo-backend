@@ -2,13 +2,13 @@
 // Requests schedule data of specified token
 // Created on 11-10-2015
 // Status 0
-
 var request = require('request');
-var exchangeAppcode = require('./exchangeAppcode.js');
 var PushBullet = require('pushbullet');
-var pusher = new PushBullet('nCWCoD4saWNZ8YPqlAxCkPnqcFYvgqL5');
-var sendPush = require('./sendPush.js');
 var mongojs = require('mongojs');
+var exchangeAppcode = require('./exchangeAppcode.js');
+var strtotime = require('./strtotime.js');
+var sendPush = require('./sendPush.js');
+var pusher = new PushBullet('nCWCoD4saWNZ8YPqlAxCkPnqcFYvgqL5');
 var db = mongojs('userdata', ['users']);
 
 function updateSendNotifications(email, id){
@@ -17,7 +17,7 @@ function updateSendNotifications(email, id){
   });
 }
 
-function notificationIsSent(email, id, callback){
+function notificationIsNotSent(email, id, callback){
   db.users.find({'email':email}, function(err, doc){
     if(err){
       console.log(err);
@@ -31,15 +31,14 @@ function notificationIsSent(email, id, callback){
 
 var curtime = Math.round((new Date().getTime()) / 1000); // Seconds elapsed since 1-1-1970
 var startTime = curtime;
-//var endTime = startTime + 7*24*60*60; // adds a week
-var endTime = Math.round((new Date('Sat Oct 17 2015').getTime()) / 1000);
-console.log(new Date(endTime*1000));
+var endTime = strtotime('next saturday', curtime);
 
 var token = '9fhdlouud4loe7ou4rjccs1il';
 var user = '301250';
 var email = 'renzowesterbeek@gmail.com';
 var roosterurl = 'http://lschoonheid.leerik.nl/beta/?id='+user;
 var apiurl = 'https://scmoost.zportal.nl/api/v2/appointments?user='+user+'&start='+startTime+'&end='+endTime+'&access_token='+token+'&valid='+true;
+console.log(apiurl);
 
 setInterval(function(){
   request(apiurl, function(err, response, body){
@@ -53,7 +52,7 @@ setInterval(function(){
           var title = les + ' van ' + leraar + ' is vervallen!';
           var body = 'Les vervallen!';
           var title = "";
-          notificationIsSent(email, data[i].id, function(){
+          notificationIsNotSent(email, data[i].id, function(){
             sendPush(email, title, body, roosterurl);
             updateSendNotifications(email, data[i].id);
           });
@@ -61,7 +60,7 @@ setInterval(function(){
           var title = 'Wijziging voor ' + les + ' van ' + leraar;
           var body = data[i].changeDescription;
           var id = data[i].id;
-          notificationIsSent(email, data[i].id, function(){
+          notificationIsNotSent(email, data[i].id, function(){
             sendPush(email, title, body, roosterurl);
             updateSendNotifications(email, id);
           });
@@ -72,4 +71,4 @@ setInterval(function(){
       db.close();
     }
   });
-}, 60 * 5 * 1000);
+}, 5 * 1000);
