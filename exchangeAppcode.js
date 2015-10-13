@@ -28,7 +28,6 @@ module.exports = function(appcode, callback){
       callback('Code is al gebruikt', null);
     } else {
       var jsonBody = JSON.parse(body);
-      // console.log('Expires in: ' + jsonBody.expires_in);
       callback(null, jsonBody.access_token);
     }
   });
