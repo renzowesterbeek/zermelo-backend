@@ -15,7 +15,7 @@ function insertDoc(email, token, callback){
     'email' : email,
     'token' : token,
     'first_time' : 1,
-    'alread_sent' : []
+    'already_sent' : []
   }, callback);
 }
 

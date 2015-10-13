@@ -11,7 +11,7 @@ _InfoWeb is the schedule system my school uses. I'm creating a service that send
 
 ## Used Technologies
 - [NodeJS]("http://www.nodejs.org/") - Web-scraping and server
-- [Express]("http://expressjs.com/") - Mid ddleware for registering
+- [Express]("http://expressjs.com/") - Midddleware for registering
 - [MongoDB]("http://mongodb.org") - Database
 - [Pushbullet]("https://www.pushbullet.com") - Push notifications
 

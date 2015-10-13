@@ -5,7 +5,7 @@
 
 var request = require('request');
 
-module.exports = function (email, title, body, url){
+module.exports = function (email, title, body, roosterurl){
   request.post({
     url : 'https://api.pushbullet.com/v2/pushes',
     headers : {
@@ -17,7 +17,7 @@ module.exports = function (email, title, body, url){
       'type' : 'link',
       'title' : title,
       'body' : body,
-      'url' : url
+      'url' : roosterurl
     }
   }, function(err, httpResponse, body){
     if(!err){
