@@ -4,6 +4,7 @@
 // Status 0
 var mongojs = require('mongojs');
 var strtotime = require('./strtotime.js');
+var request = require('request');
 
 var db = mongojs('userdata', ['users']);
 

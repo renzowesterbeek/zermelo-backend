@@ -29,18 +29,26 @@ function notificationIsNotSent(email, id, callback){
   });
 }
 
-var curtime = Math.round((new Date().getTime()) / 1000); // Seconds elapsed since 1-1-1970
-var startTime = curtime;
-var endTime = strtotime('next saturday', curtime);
+function retrieveLeerlingnum(token, callback){
+  var url = "https://scmoost.zportal.nl/api/v2/users/~me?access_token=" + token;
+  request(url, function(err, response, body){
+    if(!err & response.statusCode == 200){
+      var leerlingnum = JSON.parse(response.body).response.data[0].code;
+      callback(null, leerlingnum)
+    } else {
+      callback(err, null);
+    }
+  });
+}
 
-var token = '9fhdlouud4loe7ou4rjccs1il';
-var user = '301250';
-var email = 'renzowesterbeek@gmail.com';
-var roosterurl = 'http://lschoonheid.leerik.nl/beta/?id='+user;
-var apiurl = 'https://scmoost.zportal.nl/api/v2/appointments?user='+user+'&start='+startTime+'&end='+endTime+'&access_token='+token+'&valid='+true;
-console.log(apiurl);
+function retrieveSchedule(email, leerlingnum, token){
+  var curtime = Math.round((new Date().getTime()) / 1000); // Seconds elapsed since 1-1-1970
+  var startTime = curtime;
+  var endTime = strtotime('next saturday', curtime);
 
-setInterval(function(){
+  var roosterurl = 'http://lschoonheid.leerik.nl/beta/?id='+leerlingnum;
+  var apiurl = 'https://scmoost.zportal.nl/api/v2/appointments?user=~me&start='+startTime+'&end='+endTime+'&access_token='+token+'&valid='+true;
+
   request(apiurl, function(err, response, body){
     if (!err && response.statusCode == 200){
       console.log('Succesful request');
@@ -71,4 +79,20 @@ setInterval(function(){
       db.close();
     }
   });
-}, 5 * 1000);
+}
+
+setInterval(function(){
+  db.users.find(function(err, docs){
+    if(err){
+      console.log(err);
+    } else {
+      for(var i = 0; i < docs.length; i++){
+        var email = docs[i].email;
+        var token = docs[i].token;
+        retrieveLeerlingnum(docs[i].token, function(leerlingnum){
+          retrieveSchedule(email, leerlingnum, token);
+        })
+      }
+    }
+  });
+}, 2 * 1000);

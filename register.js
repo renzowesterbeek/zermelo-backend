@@ -28,14 +28,13 @@ function emailExists(email, callback){
     } else {
       if(doc.length == 0){
         callback(0);
-        db.close();
       } else {
         callback(1);
-        db.close();
       }
     }
   });
 }
+// 755 012 741 291
 
 // Export register.js module
 module.exports = function(){
