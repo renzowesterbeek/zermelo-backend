@@ -53,17 +53,17 @@ module.exports = function(){
           exchangeAppcode(appcode, function(err, token){
             if(err){
               console.log('ERROR:', err);
-              res.redirect("http://localhost/iweb-push-server/register.php?m=" + err);
+              res.redirect("http://localhost/iweb-website/dist/?m=" + err);
             } else {
               insertDoc(email, token, function(){
                 console.log('Inserted');
                 db.close();
-                res.redirect("http://localhost/iweb-push-server/register.php?m=Succesful%20registration");
+                res.redirect("http://localhost/iweb-website/dist/?m=Succesful%20registration");
               })
             }
           });
         } else {
-          res.redirect("http://localhost/iweb-push-server/register.php?m="+email+" already in use&appcode=" + appcode);
+          res.redirect("http://localhost/iweb-website/dist/?m="+email+" already in use&appcode=" + appcode);
         }
       });
   });

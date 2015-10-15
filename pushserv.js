@@ -1,4 +1,4 @@
-// requestSchedule.js
+// pushserv.js
 // Requests schedule data of specified token
 // Created on 11-10-2015
 // Status 0
@@ -81,18 +81,20 @@ function retrieveSchedule(email, leerlingnum, token){
   });
 }
 
-setInterval(function(){
-  db.users.find(function(err, docs){
-    if(err){
-      console.log(err);
-    } else {
-      for(var i = 0; i < docs.length; i++){
-        var email = docs[i].email;
-        var token = docs[i].token;
-        retrieveLeerlingnum(docs[i].token, function(leerlingnum){
-          retrieveSchedule(email, leerlingnum, token);
-        })
+module.exports = function(){
+  setInterval(function(){
+    db.users.find({first_time: 0}, function(err, docs){
+      if(err){
+        console.log(err);
+      } else {
+        for(var i = 0; i < docs.length; i++){
+          var email = docs[i].email;
+          var token = docs[i].token;
+          retrieveLeerlingnum(docs[i].token, function(leerlingnum){
+            retrieveSchedule(email, leerlingnum, token);
+          })
+        }
       }
-    }
-  });
-}, 2 * 1000);
+    });
+  }, 10 * 1000);
+}
