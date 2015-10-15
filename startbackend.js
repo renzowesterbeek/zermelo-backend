@@ -4,8 +4,10 @@
 // Status 1
 var pushServ = require('./pushserv.js');
 var registerServ = require('./registerserv.js');
+var firsttimeServ = require('./firsttimeserv.js');
 
 pushServ();
+firsttimeServ();
 registerServ();
 
 process.on( 'SIGINT', function() {

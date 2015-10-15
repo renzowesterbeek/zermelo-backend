@@ -69,6 +69,6 @@ module.exports = function(){
   });
 
   var server = app.listen(3000, function () {
-    console.log('Register Server listening on port 3000');
+    console.log('Registeration server started on port 3000');
   });
 }
