@@ -34,7 +34,7 @@ function retrieveLeerlingnum(token, callback){
   request(url, function(err, response, body){
     if(!err & response.statusCode == 200){
       var leerlingnum = JSON.parse(response.body).response.data[0].code;
-      callback(null, leerlingnum)
+      callback(null, leerlingnum);
     } else {
       callback(err, null);
     }
@@ -56,7 +56,7 @@ function retrieveSchedule(email, leerlingnum, token){
       for(var i = 0; i < data.length; i++){
         var les = data[i].subjects;
         var leraar = data[i].teachers;
-        if(data[i].cancelled == true){
+        if(data[i].cancelled === true){
           var title = les + ' van ' + leraar + ' is vervallen!';
           var body = 'Les vervallen!';
           var title = "";
@@ -64,7 +64,7 @@ function retrieveSchedule(email, leerlingnum, token){
             sendPush(email, title, body, roosterurl);
             updateSendNotifications(email, data[i].id);
           });
-        } else if(data[i].modified == true){
+        } else if(data[i].modified === true){
           var title = 'Wijziging voor ' + les + ' van ' + leraar;
           var body = data[i].changeDescription;
           var id = data[i].id;
@@ -93,9 +93,9 @@ module.exports = function(){
           var token = docs[i].token;
           retrieveLeerlingnum(docs[i].token, function(leerlingnum){
             retrieveSchedule(email, leerlingnum, token);
-          })
+          });
         }
       }
     });
   }, 15 * 60 * 1000);
-}
+};

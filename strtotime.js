@@ -252,4 +252,4 @@ module.exports = function(text, now) {
   //    return false;
 
   return (date.getTime() / 1000);
-}
+};

@@ -9,23 +9,15 @@ module.exports = function(grunt){
       ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */\n',
 
 		// Task configuration
-		concat: {
-      options: {
-        banner: '<%= banner %>',
-        stripBanners: true
-      },
-      js: {
-        src: ['js/**/*.js', '!js/scripts.js'],
-        dest: 'js/scripts.js'
-      }
-    },
     uglify: {
       options: {
-        banner: '<%= banner %>'
+        banner: '<%= banner %>',
+				mangle: false
       },
       build: {
-        src: '<%= concat.js.dest %>',
-        dest: 'build/js/scripts.min.js'
+        files: {
+					'build/exchangeAppcode.min.js': ['exchangeAppcode.js'],
+				}
       }
     },
     jshint: {
@@ -64,7 +56,6 @@ module.exports = function(grunt){
 	}); // end of grunt.initConfig
 
 	// Load plugins
-	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-watch');
@@ -72,7 +63,7 @@ module.exports = function(grunt){
 	grunt.loadNpmTasks('grunt-contrib-clean');
 
 	// Tasks
-	grunt.registerTask('test', ['jshint:source']);
-	grunt.registerTask('default', ['clean', 'jshint', 'uglify']);
+	grunt.registerTask('test', ['jshint']);
+	grunt.registerTask('default', ['clean', 'uglify']);
 
 };

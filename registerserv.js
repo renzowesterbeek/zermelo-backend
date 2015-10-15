@@ -1,4 +1,4 @@
-// register.js
+// registerserv.js
 // Handles submitted registration forms
 // Created on 2-8-15
 // Status 1
@@ -26,7 +26,7 @@ function emailExists(email, callback){
       console.log(err);
       db.close();
     } else {
-      if(doc.length == 0){
+      if(doc.length === 0){
         callback(0);
       } else {
         callback(1);
@@ -48,7 +48,7 @@ module.exports = function(){
       console.log("REGISTRATION DATA:", email, appcode);
 
       emailExists(email, function(result){
-        if(result == 0){
+        if(result === 0){
           // Start registration
           exchangeAppcode(appcode, function(err, token){
             if(err){
@@ -59,7 +59,7 @@ module.exports = function(){
                 console.log('Inserted');
                 db.close();
                 res.redirect("http://localhost/iweb-website/dist/?m=Je%20bent%20geregistreerd!");
-              })
+              });
             }
           });
         } else {
@@ -71,4 +71,4 @@ module.exports = function(){
   var server = app.listen(3000, function () {
     console.log('Registration server started on port 3000');
   });
-}
+};

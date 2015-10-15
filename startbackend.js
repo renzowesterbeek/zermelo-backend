@@ -14,4 +14,4 @@ process.on( 'SIGINT', function() {
   console.log( "\nShutting down servers..." );
   // some other closing procedures go here
   process.exit( );
-})
+});

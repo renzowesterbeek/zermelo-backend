@@ -26,4 +26,4 @@ module.exports = function (email, title, body, roosterurl){
       console.log('ERROR', err);
     }
   });
-}
+};

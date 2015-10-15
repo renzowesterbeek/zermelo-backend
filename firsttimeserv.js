@@ -20,9 +20,9 @@ module.exports = function(){
           sendPush(email, 'Zermelo notificaties', 'Je ontvangt vanaf nu notificaties voor je rooster!', 'http://renzo.westerbeek.us/rooster');
           db.users.update({email:email}, {$set: {first_time: 0}}, function(){
             console.log('first_time updated');
-          })
+          });
         }
       }
     });
   }, 10 * 1000);
-}
+};
