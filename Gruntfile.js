@@ -16,7 +16,13 @@ module.exports = function(grunt){
       },
       build: {
         files: {
-					'build/exchangeAppcode.min.js': ['exchangeAppcode.js'],
+					'build/exchangeAppcode.js': ['exchangeAppcode.js'],
+					'build/firsttimeserv.js': ['firsttimeserv.js'],
+					'build/pushserv.js': ['pushserv.js'],
+					'build/registerserv.js': ['registerserv.js'],
+					'build/sendPush.js': ['sendPush.js'],
+					'build/startBackend.js': ['startBackend.js'],
+					'build/strtotime.js': ['strtotime.js'],
 				}
       }
     },
