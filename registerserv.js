@@ -58,7 +58,7 @@ module.exports = function(){
               insertDoc(email, token, function(){
                 console.log('Inserted');
                 db.close();
-                res.redirect("http://localhost/iweb-website/dist/?m=Succesful%20registration");
+                res.redirect("http://localhost/iweb-website/dist/?m=Je%20bent%20geregistreerd!");
               })
             }
           });
@@ -69,6 +69,6 @@ module.exports = function(){
   });
 
   var server = app.listen(3000, function () {
-    console.log('Registeration server started on port 3000');
+    console.log('Registration server started on port 3000');
   });
 }
