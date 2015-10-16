@@ -1,23 +1,30 @@
-# InfoWeb Server (backend)
+# Zermelo Push Server (backend)
 Status:
-- register-serv   - working on
-- push-serv       - working on  
+- register-serv   - stable
+- push-serv       - stable
+- firsttime-serv  - stable
 
-[NodeJS]("http://www.nodejs.org/")-based push-notification server for my [InfoWeb Notification System]("https://github.com/renzowesterbeek/iweb-website")
-This server handles all changes on the [InfoWeb website]("http://cygyrooster.nl/infoweb/index.php?ref=2") and pushes notifications regarding this changes to the user using [Pushbullet]("https://www.pushbullet.com").
+[NodeJS]("http://www.nodejs.org/")-based push-notification and registration server for my [Zermelo Notification System]("https://github.com/renzowesterbeek/iweb-website")
+This server handles all changes on the [Zermelo website]("http://scmoost.zportal.nl") and pushes notifications regarding this changes to the user using [Pushbullet]("https://www.pushbullet.com").
 
-## What is InfoWeb?
-_InfoWeb is the schedule system my school uses. I'm creating a service that sends notifications to students when their schedule changes._
+## What is Zermelo?
+_Zermelo is the scheduling system my school uses. I'm creating a service that sends notifications to students when their schedule changes._
 
 ## Used Technologies
-- [NodeJS]("http://www.nodejs.org/") - Web-scraping and server
+- [NodeJS]("http://www.nodejs.org/") - Connecting to Zermelo api and server
 - [Express]("http://expressjs.com/") - Midddleware for registering
 - [MongoDB]("http://mongodb.org") - Database
 - [Pushbullet]("https://www.pushbullet.com") - Push notifications
 
 ## Todo
-- [ ] implement client-side registration data verification
-- [ ] implement registration functionality
+- [ ] Implement display of day of schedule change
+- [ ] Create admin page
+- [ ] Create errror notification system
+
+## How To
+_Starting the backend_
+1. Launch MongoDB `mongod --dbpath=data/db`
+2. Start servers `node startbackend.js`
 
 ## Status overview
 - 0 Unstable
