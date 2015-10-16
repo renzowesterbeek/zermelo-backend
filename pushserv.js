@@ -60,15 +60,16 @@ function retrieveSchedule(email, leerlingnum, token){
           var title = les + ' van ' + leraar + ' is vervallen!';
           var body = 'Les vervallen!';
           var title = "";
-          notificationIsNotSent(email, data[i].id, function(){
+          var id = data[i].id;
+          notificationIsNotSent(email, id, function(){
             sendPush(email, title, body, roosterurl);
-            updateSendNotifications(email, data[i].id);
+            updateSendNotifications(email, id);
           });
         } else if(data[i].modified === true){
           var title = 'Wijziging voor ' + les + ' van ' + leraar;
           var body = data[i].changeDescription;
           var id = data[i].id;
-          notificationIsNotSent(email, data[i].id, function(){
+          notificationIsNotSent(email, id, function(){
             sendPush(email, title, body, roosterurl);
             updateSendNotifications(email, id);
           });
