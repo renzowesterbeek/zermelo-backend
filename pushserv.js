@@ -46,7 +46,7 @@ function retrieveSchedule(email, leerlingnum, token){
   var startTime = curtime;
   var endTime = strtotime('next saturday', curtime);
 
-  var roosterurl = 'http://lschoonheid.leerik.nl/beta/?id='+leerlingnum;
+  var roosterurl = 'http://lschoonheid.leerik.nl/zermelo/alpha/?id='+leerlingnum;
   var apiurl = 'https://scmoost.zportal.nl/api/v2/appointments?user=~me&start='+startTime+'&end='+endTime+'&access_token='+token+'&valid='+true;
 
   request(apiurl, function(err, response, body){
@@ -92,11 +92,15 @@ module.exports = function(){
         for(var i = 0; i < docs.length; i++){
           var email = docs[i].email;
           var token = docs[i].token;
-          retrieveLeerlingnum(docs[i].token, function(leerlingnum){
-            retrieveSchedule(email, leerlingnum, token);
+          retrieveLeerlingnum(token, function(err, leerlingnum){
+            if(!err){
+              retrieveSchedule(email, leerlingnum, token);
+            } else {
+              console.log(err);
+            }
           });
         }
       }
     });
-  }, 15 * 60 * 1000);
+  }, 5 * 1000);
 };
