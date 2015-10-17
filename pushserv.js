@@ -22,9 +22,15 @@ function notificationIsNotSent(email, id, callback){
     if(err){
       console.log(err);
     } else {
+      console.log(id, doc[0].already_sent);
+      console.log("INDEX: " + doc[0].already_sent.indexOf(id));
       if(doc[0].already_sent.indexOf(id) == -1){
-        callback();
-      }
+       callback(true);
+       updateSendNotifications(email, id);
+     } else {
+       callback(false);
+       updateSendNotifications(email, id);
+     }
     }
   });
 }
@@ -41,14 +47,33 @@ function retrieveLeerlingnum(token, callback){
   });
 }
 
+function convertToDay(seconds){
+  var day = new Date(seconds * 1000).getDay();
+  if(day == 1){
+    return 'maandag';
+  } else if(day == 2){
+    return 'dinsdag';
+  } else if(day == 3){
+    return 'woensdag';
+  } else if(day == 4){
+    return 'donderdag';
+  } else if(day == 5){
+    return 'vrijdag';
+  } else {
+    return day;
+  }
+}
+
 function retrieveSchedule(email, leerlingnum, token){
   var curtime = Math.round((new Date().getTime()) / 1000); // Seconds elapsed since 1-1-1970
-  var startTime = curtime;
-  var endTime = strtotime('next saturday', curtime);
+  //var startTime = curtime;
+  //var endTime = strtotime('next saturday', curtime);
+  var startTime = 1445835600;
+  var endTime = 1446267600;
 
   var roosterurl = 'http://lschoonheid.leerik.nl/zermelo/alpha/?id='+leerlingnum;
   var apiurl = 'https://scmoost.zportal.nl/api/v2/appointments?user=~me&start='+startTime+'&end='+endTime+'&access_token='+token+'&valid='+true;
-
+  console.log(apiurl);
   request(apiurl, function(err, response, body){
     if (!err && response.statusCode == 200){
       console.log('Succesful request');
@@ -57,21 +82,22 @@ function retrieveSchedule(email, leerlingnum, token){
         var les = data[i].subjects;
         var leraar = data[i].teachers;
         if(data[i].cancelled === true){
-          var title = les + ' van ' + leraar + ' is vervallen!';
+          var title = les + ' op ' + convertToDay(data[i].start * 1000) + ' is vervallen!';
           var body = 'Les vervallen!';
-          var title = "";
           var id = data[i].id;
           notificationIsNotSent(email, id, function(){
-            sendPush(email, title, body, roosterurl);
-            updateSendNotifications(email, id);
+            //sendPush(email, title, body, roosterurl);
+            //updateSendNotifications(email, id);
           });
         } else if(data[i].modified === true){
-          var title = 'Wijziging voor ' + les + ' van ' + leraar;
+          var title = 'Wijziging voor ' + les + ' op ' + convertToDay(data[i].start * 1000);
           var body = data[i].changeDescription;
           var id = data[i].id;
-          notificationIsNotSent(email, id, function(){
-            sendPush(email, title, body, roosterurl);
-            updateSendNotifications(email, id);
+          notificationIsNotSent(email, id, function(value){
+            if(value == true){
+              //updateSendNotifications(email, id);
+              sendPush(email, title, body, roosterurl);
+            }
           });
         }
       }
@@ -94,6 +120,7 @@ module.exports = function(){
           var token = docs[i].token;
           retrieveLeerlingnum(token, function(err, leerlingnum){
             if(!err){
+              console.log('retrieving');
               retrieveSchedule(email, leerlingnum, token);
             } else {
               console.log(err);

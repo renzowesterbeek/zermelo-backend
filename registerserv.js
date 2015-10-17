@@ -53,17 +53,17 @@ module.exports = function(){
           exchangeAppcode(appcode, function(err, token){
             if(err){
               console.log('ERROR:', err);
-              res.redirect("http://localhost/iweb-website/dist/?m=" + err);
+              res.redirect("http://renzo.westerbeek.us/rooster/?m=" + err);
             } else {
               insertDoc(email, token, function(){
                 console.log('Inserted');
                 db.close();
-                res.redirect("http://localhost/iweb-website/dist/?m=Je%20bent%20geregistreerd!");
+                res.redirect("http://renzo.westerbeek.us/rooster/?m=Je%20bent%20geregistreerd!");
               });
             }
           });
         } else {
-          res.redirect("http://localhost/iweb-website/dist/?m="+email+" already in use&appcode=" + appcode);
+          res.redirect("http://renzo.westerbeek.us/rooster/?m="+email+" already in use&appcode=" + appcode);
         }
       });
   });
