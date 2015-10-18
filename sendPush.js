@@ -4,12 +4,14 @@
 // Status 2
 var request = require('request');
 
+var api_token = 'nCWCoD4saWNZ8YPqlAxCkPnqcFYvgqL5';
+
 // Sends push to user with custom variables
 exports.user = function (email, title, body, roosterurl){
   request.post({
     url : 'https://api.pushbullet.com/v2/pushes',
     headers : {
-      'Access-Token' : 'nCWCoD4saWNZ8YPqlAxCkPnqcFYvgqL5',
+      'Access-Token' : token,
       'Content-Type' : 'application/json'
     },
     form : {
@@ -33,7 +35,7 @@ exports.admin = function(title, body){
   request.post({
     url : 'https://api.pushbullet.com/v2/pushes',
     headers : {
-      'Access-Token' : 'nCWCoD4saWNZ8YPqlAxCkPnqcFYvgqL5',
+      'Access-Token' : token,
       'Content-Type' : 'application/json'
     },
     form : {

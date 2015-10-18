@@ -21,7 +21,7 @@ module.exports = function(grunt){
 					'build/pushserv.js': ['pushserv.js'],
 					'build/registerserv.js': ['registerserv.js'],
 					'build/sendPush.js': ['sendPush.js'],
-					'build/startBackend.js': ['startBackend.js'],
+					'build/startbackend.js': ['build/startbackend.js'],
 					'build/strtotime.js': ['strtotime.js'],
 				}
       }
@@ -37,16 +37,20 @@ module.exports = function(grunt){
         src: ['build/**/*.js']
       }
     },
-	  copy: {
-		  assets: {
-		    src: 'assets/**/*',
-		    dest: 'build/',
-		  },
-		},
 		clean: {
 		  build: {
 		    src: ["build/"]
 		  }
+		},
+		replace: {
+			build: {
+				src: 'startbackend.js',
+				dest: 'build/',
+				replacements: [{
+					from: 'pushServ(10)',
+					to: 'pushServ(15*60)'
+				}]
+			}
 		},
 		watch: {
 	    js: {
@@ -67,9 +71,11 @@ module.exports = function(grunt){
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-clean');
+	grunt.loadNpmTasks('grunt-text-replace');
 
 	// Tasks
 	grunt.registerTask('test', ['jshint']);
 	grunt.registerTask('default', ['clean', 'uglify']);
+	grunt.registerTask('build', ['clean', 'replace', 'uglify']);
 
 };

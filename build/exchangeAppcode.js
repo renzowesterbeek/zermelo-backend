@@ -1,0 +1,3 @@
+/*! iweb-push-server - v0.1.0 - 2015-10-18
+* Copyright (c) 2015 ; Licensed  */
+var request=require("request");module.exports=function(appcode,callback){if(!appcode)return console.log("Please submit appcode"),0;appcode=appcode.replace(/\s/g,"");var streek="scmoost",url="https://"+streek+".zportal.nl/api/v2/oauth/token",data={grant_type:"authorization_code",code:appcode};request.post({url:url,formData:data},function(err,httpResponse,body){if(err)return console.error("POST FAILED:",err);if(body.indexOf("HTTP Status 404")>=0)callback("Streek incorrect",null);else if(body.indexOf("HTTP Status 400")>=0)callback("Code is al gebruikt",null);else{var jsonBody=JSON.parse(body);callback(null,jsonBody.access_token)}})};
