@@ -58,9 +58,7 @@ function convertToDay(seconds){
 
 function retrieveSchedule(email, leerlingnum, token){
   var curtime = Math.round((new Date().getTime()) / 1000); // Seconds elapsed since 1-1-1970
-  //var startTime = curtime;
-  //var endTime = strtotime('next saturday', curtime);
-  var startTime = 1444626000;
+  var startTime = curtime;
   var endTime = strtotime('next saturday', startTime);
 
   var roosterurl = 'http://lschoonheid.leerik.nl/beta/?id='+leerlingnum;
