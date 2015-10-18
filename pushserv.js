@@ -3,18 +3,17 @@
 // Created on 11-10-2015
 // Status 1
 var request = require('request');
-var PushBullet = require('pushbullet');
 var mongojs = require('mongojs');
 var exchangeAppcode = require('./exchangeAppcode.js');
 var strtotime = require('./strtotime.js');
 var sendPush = require('./sendPush.js');
-var pusher = new PushBullet('nCWCoD4saWNZ8YPqlAxCkPnqcFYvgqL5');
 var db = mongojs('userdata', ['users']);
 
 function notificationIsNotSent(scheduledoc, email, callback){
   db.users.find({'email':email}, function(err, doc){
     if(err){
       console.log(err);
+      sendPush.admin('pushserv.js', err);
     } else {
       if(doc[0].already_sent.indexOf(scheduledoc.id) == -1){
         // Adds notification id to user's array
@@ -35,6 +34,7 @@ function retrieveLeerlingnum(token, callback){
       callback(null, leerlingnum);
     } else {
       callback(err, null);
+      sendPush.admin('pushserv.js', err);
     }
   });
 }
@@ -75,18 +75,19 @@ function retrieveSchedule(email, leerlingnum, token){
           notificationIsNotSent(data[i], email, function(les, leraar, omschrijving, dag){
             var title = les + ' op ' + dag + ' is vervallen!';
             var body = 'Les vervallen!';
-            sendPush(email, title, body, roosterurl);
+            sendPush.user(email, title, body, roosterurl);
           });
         } else if(data[i].modified === true){
           notificationIsNotSent(data[i], email, function(les, leraar, omschrijving, dag){
             var title = 'Wijziging voor ' + les + ' op ' + dag;
             var body = omschrijving;
-            sendPush(email, title, body, roosterurl);
+            sendPush.user(email, title, body, roosterurl);
           });
         }
       }
     } else {
       console.log('Error occured: ' + err);
+      sendPush.admin('pushserv.js', err);
     }
   });
 }
@@ -97,6 +98,7 @@ module.exports = function(interval){
     db.users.find({first_time: 0}, function(err, docs){
       if(err){
         console.log(err);
+        sendPush.admin('pushserv.js', err);
       } else {
         for(var i = 0; i < docs.length; i++){
           var email = docs[i].email;

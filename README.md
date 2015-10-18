@@ -18,7 +18,7 @@ _Zermelo is the scheduling system my school uses. I'm creating a service that se
 
 ## Todo
 - [ ] Create admin page
-- [ ] Create errror notification system
+- [x] Create errror notification system
 - [x] Implement display of day of schedule change
 
 ## How To

@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var mongojs = require('mongojs');
 var db = mongojs('userdata', ['users']);
 var exchangeAppcode = require('./exchangeAppcode.js');
+var sendPush = require('./sendPush.js');
 
 // Inserts account in db
 function insertDoc(email, token, callback){
@@ -24,6 +25,7 @@ function emailExists(email, callback){
   db.users.find({'email':email}, function(err, doc){
     if(err){
       console.log(err);
+      sendPush.admin('registerserv.js', err);
       db.close();
     } else {
       if(doc.length === 0){
