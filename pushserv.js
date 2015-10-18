@@ -96,8 +96,8 @@ function humanize(value){
 
 function retrieveSchedule(email, leerlingnum, token){
   var curtime = Math.round((new Date().getTime()) / 1000); // Seconds elapsed since 1-1-1970
-  //var startTime = curtime;
-  var startTime = 1444626000; // CHANGE THIS VALUE
+  var startTime = curtime;
+  //var startTime = 1444626000; // CHANGE THIS VALUE
   var endTime = strtotime('next saturday', startTime);
 
   var roosterurl = 'http://lschoonheid.leerik.nl/beta/?id='+leerlingnum;
