@@ -19,7 +19,7 @@ function notificationIsNotSent(scheduledoc, email, callback){
         // Adds notification id to user's array
         db.users.update({'email':email}, {$push: {already_sent : scheduledoc.id}}, function(){
           console.log('ADD', scheduledoc.id, 'to', email);
-          callback(scheduledoc.subjects, scheduledoc.teachers, scheduledoc.changeDescription, convertToDay(scheduledoc.start));
+          callback(scheduledoc.subjects, scheduledoc.changeDescription, convertToDay(scheduledoc.start));
         });
       }
     }
@@ -56,9 +56,48 @@ function convertToDay(seconds){
   }
 }
 
+function humanize(value){
+  if(value == 'netl'){
+    return 'Nederlands';
+  } else if(value == 'entl'){
+    return 'Engels';
+  } else if(value == 'schk'){
+    return 'scheikunde';
+  } else if(value == 'ak'){
+    return 'Aardrijkskunde';
+  } else if(value == 'nat'){
+    return 'Natuurkunde';
+  } else if(value == 'ltc'){
+    return 'Latijn';
+  } else if(value == 'dutl'){
+    return 'Duits';
+  } else if(value == 'wisb'){
+    return 'wiskunde B';
+  } else if(value == 'wisd'){
+    return 'wiskunde D';
+  } else if(value == 'lo'){
+    return 'gym';
+  } else if(value == 'fle'){
+    return 'Fast Lane English';
+  } else if(value == 'lob'){
+    return 'metorles';
+  } else if(value == 'ges'){
+    return 'geschiedenis';
+  } else if(value == 'wisa'){
+    return 'wiskunde A';
+  } else if(value == 'fatl'){
+    return 'Frans';
+  } else if(value == 'econ'){
+    return 'economie';
+  } else {
+    return String(value).toUpperCase();
+  }
+}
+
 function retrieveSchedule(email, leerlingnum, token){
   var curtime = Math.round((new Date().getTime()) / 1000); // Seconds elapsed since 1-1-1970
-  var startTime = curtime;
+  //var startTime = curtime;
+  var startTime = 1444626000; // CHANGE THIS VALUE
   var endTime = strtotime('next saturday', startTime);
 
   var roosterurl = 'http://lschoonheid.leerik.nl/beta/?id='+leerlingnum;
@@ -70,14 +109,14 @@ function retrieveSchedule(email, leerlingnum, token){
       var data = JSON.parse(body).response.data;
       for(var i = 0; i < data.length; i++){
         if(data[i].cancelled === true){
-          notificationIsNotSent(data[i], email, function(les, leraar, omschrijving, dag){
-            var title = les + ' op ' + dag + ' is vervallen!';
+          notificationIsNotSent(data[i], email, function(les, omschrijving, dag){
+            var title = humanize(les) + ' op ' + dag + ' is vervallen!';
             var body = 'Les vervallen!';
             sendPush.user(email, title, body, roosterurl);
           });
         } else if(data[i].modified === true){
-          notificationIsNotSent(data[i], email, function(les, leraar, omschrijving, dag){
-            var title = 'Wijziging voor ' + les + ' op ' + dag;
+          notificationIsNotSent(data[i], email, function(les, omschrijving, dag){
+            var title = 'Wijziging voor ' + humanize(les) + ' op ' + dag;
             var body = omschrijving;
             sendPush.user(email, title, body, roosterurl);
           });

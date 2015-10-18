@@ -11,7 +11,7 @@ exports.user = function (email, title, body, roosterurl){
   request.post({
     url : 'https://api.pushbullet.com/v2/pushes',
     headers : {
-      'Access-Token' : token,
+      'Access-Token' : api_token,
       'Content-Type' : 'application/json'
     },
     form : {
@@ -35,7 +35,7 @@ exports.admin = function(title, body){
   request.post({
     url : 'https://api.pushbullet.com/v2/pushes',
     headers : {
-      'Access-Token' : token,
+      'Access-Token' : api_token,
       'Content-Type' : 'application/json'
     },
     form : {

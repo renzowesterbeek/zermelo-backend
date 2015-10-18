@@ -11,10 +11,10 @@ This server handles all changes on the [Zermelo website]("http://scmoost.zportal
 _Zermelo is the scheduling system my school uses. I'm creating a service that sends notifications to students when their schedule changes._
 
 ## Used Technologies
-- [NodeJS]("http://www.nodejs.org/") - Connecting to Zermelo api and server
-- [Express]("http://expressjs.com/") - Middleware for registering
-- [MongoDB]("http://mongodb.org") - Database
-- [Pushbullet]("https://www.pushbullet.com") - Push notifications
+- [NodeJS](http://www.nodejs.org/) - Connecting to Zermelo api and server
+- [Express](http://expressjs.com/) - Middleware for registering
+- [MongoDB](http://mongodb.org) - Database
+- [Pushbullet](https://www.pushbullet.com) - Push notifications
 
 ## Todo
 - [ ] Create admin page
