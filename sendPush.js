@@ -21,7 +21,7 @@ module.exports = function (email, title, body, roosterurl){
     }
   }, function(err, httpResponse, body){
     if(!err){
-      console.log('Notification sent');
+      console.log('SENT', email, title);
     } else {
       console.log('ERROR', err);
     }

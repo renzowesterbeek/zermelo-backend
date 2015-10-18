@@ -11,16 +11,16 @@ var sendPush = require('./sendPush.js');
 var pusher = new PushBullet('nCWCoD4saWNZ8YPqlAxCkPnqcFYvgqL5');
 var db = mongojs('userdata', ['users']);
 
-function notificationIsNotSent(email, id, callback){
+function notificationIsNotSent(scheduledoc, email, callback){
   db.users.find({'email':email}, function(err, doc){
     if(err){
       console.log(err);
     } else {
-      if(doc[0].already_sent.indexOf(id) == -1){
+      if(doc[0].already_sent.indexOf(scheduledoc.id) == -1){
         // Adds notification id to user's array
-        db.users.update({'email':email}, {$push: {already_sent : id}}, function(){
-          console.log('Added', id, 'to', email);
-          callback();
+        db.users.update({'email':email}, {$push: {already_sent : scheduledoc.id}}, function(){
+          console.log('ADD', scheduledoc.id, 'to', email);
+          callback(scheduledoc.subjects, scheduledoc.teachers, scheduledoc.changeDescription, convertToDay(scheduledoc.start));
         });
       }
     }
@@ -60,33 +60,27 @@ function retrieveSchedule(email, leerlingnum, token){
   var curtime = Math.round((new Date().getTime()) / 1000); // Seconds elapsed since 1-1-1970
   //var startTime = curtime;
   //var endTime = strtotime('next saturday', curtime);
-  var startTime = 1445835600;
-  var endTime = 1446267600;
+  var startTime = 1444626000;
+  var endTime = strtotime('next saturday', startTime);
 
   var roosterurl = 'http://lschoonheid.leerik.nl/beta/?id='+leerlingnum;
   var apiurl = 'https://scmoost.zportal.nl/api/v2/appointments?user=~me&start='+startTime+'&end='+endTime+'&access_token='+token+'&valid='+true;
-  console.log(apiurl);
 
   request(apiurl, function(err, response, body){
     if (!err && response.statusCode == 200){
       console.log('Succesful request');
       var data = JSON.parse(body).response.data;
       for(var i = 0; i < data.length; i++){
-        var les = data[i].subjects;
-        var leraar = data[i].teachers;
         if(data[i].cancelled === true){
-          var title = les + ' van ' + leraar + ' is vervallen!';
-          var body = 'Les vervallen!';
-          var title = "";
-          var id = data[i].id;
-          notificationIsNotSent(email, id, function(){
+          notificationIsNotSent(data[i], email, function(les, leraar, omschrijving, dag){
+            var title = les + ' op ' + dag + ' is vervallen!';
+            var body = 'Les vervallen!';
             sendPush(email, title, body, roosterurl);
           });
         } else if(data[i].modified === true){
-          var title = 'Wijziging voor ' + les + ' van ' + leraar;
-          var body = data[i].changeDescription;
-          var id = data[i].id;
-          notificationIsNotSent(email, id, function(){
+          notificationIsNotSent(data[i], email, function(les, leraar, omschrijving, dag){
+            var title = 'Wijziging voor ' + les + ' op ' + dag;
+            var body = omschrijving;
             sendPush(email, title, body, roosterurl);
           });
         }
