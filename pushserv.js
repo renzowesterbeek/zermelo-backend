@@ -1,7 +1,7 @@
 // pushserv.js
 // Requests schedule data of specified token
 // Created on 11-10-2015
-// Status 0
+// Status 1
 var request = require('request');
 var PushBullet = require('pushbullet');
 var mongojs = require('mongojs');
@@ -91,7 +91,7 @@ function retrieveSchedule(email, leerlingnum, token){
   });
 }
 
-module.exports = function(){
+module.exports = function(interval){
   console.log('Push server started');
   setInterval(function(){
     db.users.find({first_time: 0}, function(err, docs){
@@ -107,5 +107,5 @@ module.exports = function(){
         }
       }
     });
-  }, 5 * 1000);
+  }, interval * 1000);
 };

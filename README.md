@@ -12,14 +12,14 @@ _Zermelo is the scheduling system my school uses. I'm creating a service that se
 
 ## Used Technologies
 - [NodeJS]("http://www.nodejs.org/") - Connecting to Zermelo api and server
-- [Express]("http://expressjs.com/") - Midddleware for registering
+- [Express]("http://expressjs.com/") - Middleware for registering
 - [MongoDB]("http://mongodb.org") - Database
 - [Pushbullet]("https://www.pushbullet.com") - Push notifications
 
 ## Todo
-- [ ] Implement display of day of schedule change
 - [ ] Create admin page
 - [ ] Create errror notification system
+- [x] Implement display of day of schedule change
 
 ## How To
 _Starting the backend_

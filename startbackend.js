@@ -1,17 +1,19 @@
 // startbackend.js
 // Starts all backend processes for the server to work correctly
 // Created on 6-8-15
-// Status 1
+// Status 2
 var pushServ = require('./pushserv.js');
 var registerServ = require('./registerserv.js');
 var firsttimeServ = require('./firsttimeserv.js');
 
-pushServ();
-firsttimeServ();
-registerServ();
+// Intervals in seconds
+pushServ(10);
+firsttimeServ(10);
+registerServ(/* is called every time user registers, no interval */);
 
-process.on( 'SIGINT', function() {
-  console.log( "\nShutting down servers..." );
-  // some other closing procedures go here
-  process.exit( );
+// Called on stopping of servers (ctrl-c)
+process.on('SIGINT', function() {
+  console.log("\nShutting down servers...");
+  // Exit procedures here
+  process.exit();
 });

@@ -1,7 +1,7 @@
 // sendPush.js
 // Sends pushnotification with specified title, body and url to email
 // Created on 11-10-2015
-// Status 1
+// Status 2
 
 var request = require('request');
 

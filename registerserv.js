@@ -1,7 +1,7 @@
 // registerserv.js
 // Handles submitted registration forms
 // Created on 2-8-15
-// Status 1
+// Status 2
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
@@ -34,7 +34,6 @@ function emailExists(email, callback){
     }
   });
 }
-// 755 012 741 291
 
 // Export register.js module
 module.exports = function(){
