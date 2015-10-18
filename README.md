@@ -24,7 +24,7 @@ _Zermelo is the scheduling system my school uses. I'm creating a service that se
 ## How To
 _Starting the backend_
 1. Launch MongoDB `mongod --dbpath=data/db`
-2. Start servers `node startbackend.js`
+2. Start servers `node build/startbackend.js`
 
 ## Status overview
 - 0 Unstable
