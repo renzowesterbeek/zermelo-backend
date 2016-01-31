@@ -17,7 +17,7 @@ module.exports = function(interval){
       } else {
         for(var i = 0; i < docs.length; i++){
           var email = docs[i].email;
-          sendPush(email, 'Zermelo notificaties', 'Je ontvangt vanaf nu notificaties voor je rooster!', 'http://renzo.westerbeek.us/rooster');
+          sendPush.user(email, 'Zermelo notificaties', 'Je ontvangt vanaf nu notificaties voor je rooster!', 'http://renzo.westerbeek.us/rooster');
           db.users.update({email:email}, {$set: {first_time: 0}}, function(){
             console.log('First_time updated for', email);
           });

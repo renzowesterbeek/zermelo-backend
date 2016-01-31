@@ -27,7 +27,6 @@ _Starting the backend_
 1. Launch MongoDB `mongod --dbpath=data/db`
 2. Start servers `node build/startbackend.js`
 
-## Status overview
-- 0 Unstable
-- 1 Stable
-- 2 Done
+_Monitoring db_
+
+1. Inside started `mongod` instance, run `db.users.find()`

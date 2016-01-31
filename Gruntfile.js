@@ -21,7 +21,7 @@ module.exports = function(grunt){
 					'build/pushserv.js': ['pushserv.js'],
 					'build/registerserv.js': ['registerserv.js'],
 					'build/sendPush.js': ['sendPush.js'],
-					'build/startbackend.js': ['build/startbackend.js'],
+					'build/startbackend.js': ['startbackend.js'],
 					'build/strtotime.js': ['strtotime.js'],
 				}
       }
@@ -42,16 +42,16 @@ module.exports = function(grunt){
 		    src: ["build/"]
 		  }
 		},
-		replace: {
-			build: {
-				src: 'startbackend.js',
-				dest: 'build/',
-				replacements: [{
-					from: 'pushServ(10)',
-					to: 'pushServ(15*60)'
-				}]
-			}
-		},
+		// replace: {
+		// 	build: {
+		// 		src: 'startbackend.js',
+		// 		dest: 'build/',
+		// 		replacements: [{
+		// 			from: 'pushServ(10)',
+		// 			to: 'pushServ(15*60)'
+		// 		}]
+		// 	}
+		// },
 		watch: {
 	    js: {
 	      files: ['*.js', '!Gruntfile.js', '!package.json'],
@@ -76,6 +76,6 @@ module.exports = function(grunt){
 	// Tasks
 	grunt.registerTask('test', ['jshint']);
 	grunt.registerTask('default', ['clean', 'uglify']);
-	grunt.registerTask('build', ['clean', 'replace', 'uglify']);
+	grunt.registerTask('build', ['clean', 'uglify']);
 
 };
