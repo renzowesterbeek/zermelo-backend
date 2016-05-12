@@ -29,4 +29,6 @@ _Starting the backend_
 
 _Monitoring db_
 
-1. Inside started `mongod` instance, run `db.users.find()`
+1. Connect to server using `mongo`
+2. Switch to db userdata using `use userdata`
+2. Find registered users and their data using `db.users.find()`

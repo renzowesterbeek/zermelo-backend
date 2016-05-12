@@ -9,7 +9,7 @@ var firsttimeServ = require('./firsttimeserv.js');
 // Intervals in seconds
 pushServ(10);
 firsttimeServ(10);
-registerServ(/* is called every time user registers, no interval */);
+registerServ(/* is called every time user registers */);
 
 // Called on stopping of servers (ctrl-c)
 process.on('SIGINT', function() {

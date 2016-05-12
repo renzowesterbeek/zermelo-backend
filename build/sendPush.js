@@ -1,3 +1,3 @@
-/*! iweb-push-server - v1.0.0 - 2016-01-30
+/*! iweb-push-server - v1.0.0 - 2016-05-11
 * Copyright (c) 2016 ; Licensed  */
 var request=require("request"),api_token="nCWCoD4saWNZ8YPqlAxCkPnqcFYvgqL5";exports.user=function(email,title,body,roosterurl){request.post({url:"https://api.pushbullet.com/v2/pushes",headers:{"Access-Token":api_token,"Content-Type":"application/json"},form:{email:email,type:"link",title:title,body:body,url:roosterurl}},function(err,httpResponse,body){err?console.log("ERROR",err):console.log("SENT",email,title)})},exports.admin=function(title,body){request.post({url:"https://api.pushbullet.com/v2/pushes",headers:{"Access-Token":api_token,"Content-Type":"application/json"},form:{email:"renzowesterbeek@gmail.com",type:"note",title:"ERROR "+title,body:body}},function(err,httpResponse,body){err?console.log("ERROR",err):console.log("SENT ERROR",title)})};

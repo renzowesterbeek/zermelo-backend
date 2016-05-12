@@ -80,7 +80,7 @@ function humanize(value){
   } else if(value == 'fle'){
     return 'Fast Lane English';
   } else if(value == 'lob'){
-    return 'metorles';
+    return 'mentorles';
   } else if(value == 'ges'){
     return 'geschiedenis';
   } else if(value == 'wisa'){
@@ -89,6 +89,10 @@ function humanize(value){
     return 'Frans';
   } else if(value == 'econ'){
     return 'economie';
+  } else if(value == 'fi'){
+    return 'filosofie';
+  } else if(value == 'kum'){
+    return 'muziek';
   } else {
     return String(value).toUpperCase();
   }
@@ -97,7 +101,6 @@ function humanize(value){
 function retrieveSchedule(email, leerlingnum, token){
   var curtime = Math.round((new Date().getTime()) / 1000); // Seconds elapsed since 1-1-1970
   var startTime = curtime;
-  //var startTime = 1444626000; // CHANGE THIS VALUE
   var endTime = strtotime('next saturday', startTime);
 
   var roosterurl = 'http://lschoonheid.leerik.nl/beta/?id='+leerlingnum;
