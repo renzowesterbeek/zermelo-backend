@@ -1,7 +1,7 @@
 // firsttimeserv.js
 // Sends update to first-time users
 // Created on 14-10-2015
-// Status 1
+// Status OBSOLETE
 var PushBullet = require('pushbullet');
 var mongojs = require('mongojs');
 var sendPush = require('./sendPush.js');

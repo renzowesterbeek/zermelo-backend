@@ -15,7 +15,6 @@ function insertDoc(email, token, callback){
   db.users.insert({
     'email' : email,
     'token' : token,
-    'first_time' : 1,
     'already_sent' : []
   }, callback);
 }
@@ -47,6 +46,7 @@ module.exports = function(){
       var appcode = req.body.appcode;
       var email = req.body.email;
       console.log("REGISTRATION DATA:", email, appcode);
+      var redirectURL = "http://localhost/iweb-website/dist/";
 
       emailExists(email, function(result){
         if(result === 0){
@@ -54,17 +54,18 @@ module.exports = function(){
           exchangeAppcode(appcode, function(err, token){
             if(err){
               console.log('ERROR:', err);
-              res.redirect("http://renzo.westerbeek.us/rooster/?m=" + err);
+              res.redirect(redirectURL + "?m=" + err);
             } else {
               insertDoc(email, token, function(){
                 console.log('Inserted');
+                sendPush.user(email, 'Zermelo notificaties', 'Je ontvangt vanaf nu notificaties voor je rooster!', 'http://renzo.westerbeek.us/rooster');
                 db.close();
-                res.redirect("http://renzo.westerbeek.us/rooster/?m=Je%20bent%20geregistreerd!");
+                res.redirect(redirectURL + "?m=Je%20bent%20geregistreerd!");
               });
             }
           });
         } else {
-          res.redirect("http://renzo.westerbeek.us/rooster/?m="+email+" already in use&appcode=" + appcode);
+          res.redirect(redirectURL + "?m="+email+" is al geregistreerd.&appcode=" + appcode);
         }
       });
   });

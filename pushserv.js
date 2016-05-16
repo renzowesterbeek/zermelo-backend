@@ -135,7 +135,7 @@ function retrieveSchedule(email, leerlingnum, token){
 module.exports = function(interval){
   console.log('Push server started');
   setInterval(function(){
-    db.users.find({first_time: 0}, function(err, docs){
+    db.users.find({}, function(err, docs){
       if(err){
         console.log(err);
         sendPush.admin('pushserv.js', err);
